@@ -12,9 +12,7 @@ to_kmpers = to_cmpers/10**5             # km/s
 to_s = 1/(G_val/to_cm**3*to_g)**0.5       # s
 c = 2.99792*10**10/to_cmpers
 
-#print('%1.11e'%to_kmpers)
-#print('%1.11e'%to_s)
-# print(c)
+
 #%%
 
 def abs_vector(x):
@@ -253,7 +251,7 @@ def TwoBody(fnum, name, m1, m2, e, a, Nperiod, timestepmax, PNon):
         plt.plot(x2_vals, y2_vals, color = 'b', marker = 'o', markersize = 6*m2/(m1+m2), label='m2 = '+ str(m2)+' $M_\odot$')
     elif PNon == True:
         x1_vals, y1_vals, x2_vals, y2_vals = predPN(m1, m2, e, a, timestepmax)
-        # 질량 큰쪽이 얇은 선...
+
         plt.plot(x1_vals, y1_vals, color = 'red', linestyle = 'solid', linewidth = m2/(m1+m2)*4,label='m1 = '+ str(m1)+' $M_\odot$')
         plt.plot(x2_vals, y2_vals, color = 'blue', linestyle = 'solid', linewidth = m1/(m1+m2)*4,label='m2 = '+ str(m2)+' $M_\odot$')
         scale = 10**-6
