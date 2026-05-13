@@ -14,6 +14,8 @@ KS(Kolmogorov-Smirnov) 검정으로 적합도를 평가한 코드입니다.
 동기의 중력파 데이터 분석 연구를 지원하는 과정에서 작성했으며,
 **두 질량 분포 모델의 구현을 전담**했습니다.
 
+두 모델은 [Abbott et al. (2021)](https://iopscience.iop.org/article/10.3847/2041-8213/abe949) 에서 제안된 BBH 질량 분포 모델을 구현한 것입니다.
+
 ### 모델
 
 #### Truncated Power Law
@@ -80,6 +82,8 @@ and evaluates goodness-of-fit using the Kolmogorov-Smirnov test.
 
 Written to support a collaborator's gravitational wave data analysis research.
 **Responsible for implementing both mass distribution models.**
+
+Both models are implementations of the BBH mass distribution models proposed in [Abbott et al. (2021)](https://iopscience.iop.org/article/10.3847/2041-8213/abe949).
 
 ### Models
 
