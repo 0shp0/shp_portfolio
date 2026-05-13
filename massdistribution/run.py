@@ -5,6 +5,7 @@ GWTC BBH m1 분포 피팅 및 KS 검정 실행 스크립트.
 
 데이터 파일 경로를 수정하여 사용한다. (data/README.md 참고)
 """
+#%%
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -26,6 +27,7 @@ BBH_m1   = GWTC_BBH['m1_median'].round(1).to_numpy()
 # Truncated Power Law
 # ---------------------------------------------------------------------------
 
+#%%
 trunc = KSTruncated(
     data     = BBH_m1,
     m_min    = 2,
@@ -60,3 +62,4 @@ print(pp.df)
 print("KS statistic D_n =", pp.ks_statistic())
 pp.plot_pdf()
 pp.plot_cdf(model_label="PP")
+# %%
