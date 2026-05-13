@@ -11,26 +11,53 @@
 2024.01 수치상대론 겨울학교 수치 천체물리 부문 문제풀이 코드입니다.
 블랙홀·중성자별 쌍성의 궤도를 수치적으로 적분하고, 중력파 방출에 의한 나선형 합체 과정을 시뮬레이션합니다.
 
-### 알고리즘
+### 알고리즘: 4차 Hermite Predictor-Corrector
 
-**4차 Hermite predictor-corrector** 방식을 사용합니다.
+현재 시간의 가속도 $\mathbf{a}_0$와 그 시간 미분(jerk) $\dot{\mathbf{a}}_0$로부터
+테일러 전개를 통해 다음 위치·속도를 **예측**한다.
 
-현재 시간의 가속도 **a** 와 그 시간 미분(jerk) **ȧ** 를 계산하여 다음 위치와 속도를 예측(predictor)한 뒤,
-예측된 위치에서 다시 가속도를 계산해 3차·4차 미분을 역산하여 결과를 보정(corrector)합니다.
-위치에 대해 5차, 전체 계산에 대해 4차 정밀도를 달성합니다.
+$$\mathbf{r}_p = \mathbf{r}_0 + \mathbf{v}_0\Delta t + \mathbf{a}_0\frac{\Delta t^2}{2} + \dot{\mathbf{a}}_0\frac{\Delta t^3}{6}$$
 
-중력파 방출 효과는 **2.5PN(post-Newtonian) 복사 반력 항**으로 반영합니다.
-뉴턴 가속도에 Burke-Thorne radiation reaction 항을 더하며,
-Hermite 적분기가 jerk를 요구하기 때문에 PN 항에 대해서도 시간 미분을 직접 유도하여 구현했습니다.
+$$\mathbf{v}_p = \mathbf{v}_0 + \mathbf{a}_0\Delta t + \dot{\mathbf{a}}_0\frac{\Delta t^2}{2}$$
+
+예측된 위치에서 $\mathbf{a}_p$, $\dot{\mathbf{a}}_p$를 다시 계산하고,
+predictor와 corrector의 차이로부터 고차 미분을 역산한다.
+
+$$\dddot{\mathbf{a}}_0 = 12\frac{\mathbf{a}_0 - \mathbf{a}_p}{\Delta t^3} + 6\frac{\dot{\mathbf{a}}_0 + \dot{\mathbf{a}}_p}{\Delta t^2}$$
+
+$$\ddot{\mathbf{a}}_0 = -6\frac{\mathbf{a}_0 - \mathbf{a}_p}{\Delta t^2} - 2\frac{2\dot{\mathbf{a}}_0 + \dot{\mathbf{a}}_p}{\Delta t}$$
+
+이를 이용해 위치·속도를 **보정**한다.
+
+$$\mathbf{r}_1 = \mathbf{r}_p + \ddot{\mathbf{a}}_0\frac{\Delta t^4}{24} + \dddot{\mathbf{a}}_0\frac{\Delta t^5}{120}$$
+
+$$\mathbf{v}_1 = \mathbf{v}_p + \ddot{\mathbf{a}}_0\frac{\Delta t^3}{6} + \dddot{\mathbf{a}}_0\frac{\Delta t^4}{24}$$
+
+위치에 대해 5차, 전체 계산에 대해 4차 정밀도를 달성한다.
+
+### 2.5PN 복사 반력
+
+$M = m_1 + m_2$, $\eta = m_1 m_2 / M^2$ 으로 정의할 때,
+2.5PN 복사 반력 가속도는 다음과 같다.
+
+$$\mathbf{a}_{\rm PN} = \frac{m_j}{r^2}\left(A\frac{\mathbf{R}}{r} + B\mathbf{V}\right)$$
+
+$$A = \frac{8}{5}\eta\frac{M}{r}\dot{r}\left(\frac{17}{3}\frac{M}{r} + 3v^2\right), \qquad
+B = -\frac{8}{5}\eta\frac{M}{r}\left(3\frac{M}{r} + v^2\right)$$
+
+Hermite 적분기는 가속도의 시간 미분(jerk)을 요구하므로,
+$\dot{\mathbf{a}}_{\rm PN}$ 계산을 위해 $\dot{A}$, $\dot{B}$를 직접 유도하여 구현했다.
+
+$$\dot{A} = \frac{8}{5}\eta M\left[\frac{17}{3}M\left(\frac{\ddot{r}}{r^2} - \frac{2\dot{r}^2}{r^3}\right) + 3\left(\frac{\ddot{r}v^2}{r} - \frac{\dot{r}^2 v^2}{r^2} + \frac{2\dot{r}v\dot{v}}{r}\right)\right]$$
+
+$$\dot{B} = \frac{8}{5}\eta\frac{M}{r^2}\dot{r}\left(3\frac{M}{r} + v^2\right) - \frac{8}{5}\eta\frac{M}{r}\left(-3\frac{M}{r^2}\dot{r} + 2\mathbf{V}\cdot\mathbf{a}\right)$$
+
+여기서 $\ddot{r} = (v^2 + \mathbf{R}\cdot\mathbf{a} - \dot{r}^2)/r$, $\dot{v} = \mathbf{V}\cdot\mathbf{a}/v$.
 
 ### 구현 제약 사항
 
-대회 규정상 **외부 계산 라이브러리 사용 시 50% 감점** 조건이 있었습니다.
-따라서 원본 코드는 사칙연산만으로 작성되었습니다.
-
-- `abs_vector()` : `np.linalg.norm` 대신 직접 구현한 벡터 크기 함수
-- `pi = 3.14159` : 문제에서 지정한 상수값 그대로 사용
-- `dt_list` 생성 : numpy 없이 Python 리스트 연산으로 구현
+대회 규정상 외부 계산 라이브러리 사용 시 50% 감점 조건이 있었습니다.
+물리 계산(가속도, 적분, dt 생성 등)은 직접 구현하고, numpy는 배열/인덱싱 용도로만 사용했습니다.
 
 ### 단위계
 
@@ -84,28 +111,51 @@ Solution code for the Numerical Astrophysics section of the 2024.01 Numerical Re
 Numerically integrates the orbits of black hole and neutron star binary systems,
 and simulates the inspiral merger process driven by gravitational wave emission.
 
-### Algorithm
+### Algorithm: 4th-order Hermite Predictor-Corrector
 
-Uses a **4th-order Hermite predictor-corrector** scheme.
+Given the acceleration $\mathbf{a}_0$ and its time derivative (jerk) $\dot{\mathbf{a}}_0$,
+the next position and velocity are **predicted** via Taylor expansion:
 
-At each timestep, the gravitational acceleration **a** and its time derivative (jerk) **ȧ** are computed.
-A predictor step advances position and velocity via Taylor expansion,
-then the corrector back-solves for the 2nd and 3rd time derivatives of acceleration to refine the result.
+$$\mathbf{r}_p = \mathbf{r}_0 + \mathbf{v}_0\Delta t + \mathbf{a}_0\frac{\Delta t^2}{2} + \dot{\mathbf{a}}_0\frac{\Delta t^3}{6}$$
+
+$$\mathbf{v}_p = \mathbf{v}_0 + \mathbf{a}_0\Delta t + \dot{\mathbf{a}}_0\frac{\Delta t^2}{2}$$
+
+Accelerations $\mathbf{a}_p$, $\dot{\mathbf{a}}_p$ are recomputed at the predicted position.
+Higher-order derivatives are back-solved from the predictor-corrector difference:
+
+$$\dddot{\mathbf{a}}_0 = 12\frac{\mathbf{a}_0 - \mathbf{a}_p}{\Delta t^3} + 6\frac{\dot{\mathbf{a}}_0 + \dot{\mathbf{a}}_p}{\Delta t^2}, \qquad
+\ddot{\mathbf{a}}_0 = -6\frac{\mathbf{a}_0 - \mathbf{a}_p}{\Delta t^2} - 2\frac{2\dot{\mathbf{a}}_0 + \dot{\mathbf{a}}_p}{\Delta t}$$
+
+Position and velocity are then **corrected**:
+
+$$\mathbf{r}_1 = \mathbf{r}_p + \ddot{\mathbf{a}}_0\frac{\Delta t^4}{24} + \dddot{\mathbf{a}}_0\frac{\Delta t^5}{120}, \qquad
+\mathbf{v}_1 = \mathbf{v}_p + \ddot{\mathbf{a}}_0\frac{\Delta t^3}{6} + \dddot{\mathbf{a}}_0\frac{\Delta t^4}{24}$$
+
 This achieves 5th-order accuracy in position and 4th-order overall.
 
-Gravitational wave emission is incorporated via a **2.5PN (post-Newtonian) radiation-reaction term**.
-The Burke-Thorne radiation reaction force is added on top of the Newtonian acceleration.
+### 2.5PN Radiation Reaction
+
+With $M = m_1 + m_2$ and $\eta = m_1 m_2 / M^2$, the 2.5PN radiation-reaction acceleration is:
+
+$$\mathbf{a}_{\rm PN} = \frac{m_j}{r^2}\left(A\frac{\mathbf{R}}{r} + B\mathbf{V}\right)$$
+
+$$A = \frac{8}{5}\eta\frac{M}{r}\dot{r}\left(\frac{17}{3}\frac{M}{r} + 3v^2\right), \qquad
+B = -\frac{8}{5}\eta\frac{M}{r}\left(3\frac{M}{r} + v^2\right)$$
+
 Because the Hermite integrator requires the jerk of every force term,
-the time derivative of the PN acceleration was derived and implemented analytically.
+$\dot{A}$ and $\dot{B}$ were analytically derived and implemented:
+
+$$\dot{A} = \frac{8}{5}\eta M\left[\frac{17}{3}M\left(\frac{\ddot{r}}{r^2} - \frac{2\dot{r}^2}{r^3}\right) + 3\left(\frac{\ddot{r}v^2}{r} - \frac{\dot{r}^2 v^2}{r^2} + \frac{2\dot{r}v\dot{v}}{r}\right)\right]$$
+
+$$\dot{B} = \frac{8}{5}\eta\frac{M}{r^2}\dot{r}\left(3\frac{M}{r} + v^2\right) - \frac{8}{5}\eta\frac{M}{r}\left(-3\frac{M}{r^2}\dot{r} + 2\mathbf{V}\cdot\mathbf{a}\right)$$
+
+where $\ddot{r} = (v^2 + \mathbf{R}\cdot\mathbf{a} - \dot{r}^2)/r$ and $\dot{v} = \mathbf{V}\cdot\mathbf{a}/v$.
 
 ### Implementation Constraints
 
-The competition rules imposed a **50% score penalty for using external calculation libraries**.
-The original code is therefore written using only arithmetic operations.
-
-- `abs_vector()` : hand-implemented vector norm instead of `np.linalg.norm`
-- `pi = 3.14159` : exact constant specified by the problem statement
-- `dt_list` construction : implemented with pure Python list operations
+The competition rules imposed a 50% score penalty for using external calculation libraries.
+Physical computations (accelerations, integration, timestep generation) were implemented from scratch;
+numpy was used only for array storage and indexing.
 
 ### Unit System
 
