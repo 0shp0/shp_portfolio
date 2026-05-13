@@ -13,7 +13,7 @@
 #### [2bodymerger](./2bodymerger)
 **4차 Hermite predictor-corrector를 이용한 쌍성 궤도 시뮬레이션 및 중력파 방출에 의한 합체 계산**
 
-2024 수치상대론 겨울학교 수치 천체물리 부문 문제풀이 코드 (1위).
+2024 GW-NR 겨울학교 수치상대론 부문 문제풀이 코드.
 뉴턴 중력 궤도적분과 2.5PN 복사 반력 항을 구현하여 블랙홀 쌍성의 나선형 합체 과정을 시뮬레이션한다.
 Hermite 적분기가 요구하는 PN jerk 항을 직접 유도하여 구현.
 
@@ -52,7 +52,7 @@ Graduate-level numerical astrophysics and gravitational wave data analysis proje
 #### [2bodymerger](./2bodymerger)
 **Binary star orbit simulation and GW-driven merger via 4th-order Hermite predictor-corrector**
 
-Competition solution for the 2024 Numerical Relativity Winter School (1st place).
+Competition solution for the 2024.01 GW-NR Winter School. (Numerical Relativity part)
 Implements Newtonian orbit integration and 2.5PN radiation-reaction to simulate
 the inspiral merger of black hole binaries.
 The PN jerk term required by the Hermite integrator was analytically derived and implemented.
