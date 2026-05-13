@@ -24,21 +24,21 @@ CDF는 Gauss-Legendre 수치적분으로 계산한다.
 
 #### Power + Peak (PP)
 
-$$\pi(m_1 \mid \lambda_{\rm peak},\, \alpha,\, m_{\min},\, \delta_m,\, m_{\max},\, \mu_m,\, \sigma_m)$$
+$$\pi(m_1 \mid \lambda_{\rm peak}, \alpha, m_{\min}, \delta_m, m_{\max}, \mu_m, \sigma_m)$$
 
-$$= \left[(1 - \lambda_{\rm peak})\,\mathfrak{P}(m_1 \mid -\alpha,\, m_{\max}) + \lambda_{\rm peak}\,G(m_1 \mid \mu_m,\, \sigma_m)\right] S(m_1 \mid m_{\min},\, \delta_m)$$
+$$= \left[(1 - \lambda_{\rm peak})\,\mathfrak{P}(m_1 \mid -\alpha, m_{\max}) + \lambda_{\rm peak}\,G(m_1 \mid \mu_m, \sigma_m)\right] S(m_1 \mid m_{\min}, \delta_m)$$
 
 멱함수 성분 $\mathfrak{P}$ 와 가우시안 성분 $G$ 를 $\lambda_{\rm peak}$ 비율로 혼합한다.
 
 **Smooth window** $S(m)$ 은 $m_{\min}$ 근방의 급격한 절단을 부드럽게 처리한다.
 
-$$S(m \mid m_{\min},\, \delta_m) = \begin{cases}
+$$S(m \mid m_{\min}, \delta_m) = \begin{cases}
 0 & (m < m_{\min}) \\
-\left[f(m - m_{\min},\, \delta_m) + 1\right]^{-1} & (m_{\min} \leq m < m_{\min} + \delta_m) \\
+\left[f(m - m_{\min}, \delta_m) + 1\right]^{-1} & (m_{\min} \leq m < m_{\min} + \delta_m) \\
 1 & (m \geq m_{\min} + \delta_m)
 \end{cases}$$
 
-$$f(m',\, \delta_m) = \exp\!\left(\frac{\delta_m}{m'} + \frac{\delta_m}{m' - \delta_m}\right)$$
+$$f(m', \delta_m) = \exp\left(\frac{\delta_m}{m'} + \frac{\delta_m}{m' - \delta_m}\right)$$
 
 **물리적 동기**
 
@@ -90,22 +90,22 @@ CDF computed via Gauss-Legendre quadrature.
 
 #### Power + Peak (PP)
 
-$$\pi(m_1 \mid \lambda_{\rm peak},\, \alpha,\, m_{\min},\, \delta_m,\, m_{\max},\, \mu_m,\, \sigma_m)$$
+$$\pi(m_1 \mid \lambda_{\rm peak}, \alpha, m_{\min}, \delta_m, m_{\max}, \mu_m, \sigma_m)$$
 
-$$= \left[(1 - \lambda_{\rm peak})\,\mathfrak{P}(m_1 \mid -\alpha,\, m_{\max}) + \lambda_{\rm peak}\,G(m_1 \mid \mu_m,\, \sigma_m)\right] S(m_1 \mid m_{\min},\, \delta_m)$$
+$$= \left[(1 - \lambda_{\rm peak})\,\mathfrak{P}(m_1 \mid -\alpha, m_{\max}) + \lambda_{\rm peak}\,G(m_1 \mid \mu_m, \sigma_m)\right] S(m_1 \mid m_{\min}, \delta_m)$$
 
 A mixture of a power law component $\mathfrak{P}$ and a Gaussian component $G$,
 weighted by $\lambda_{\rm peak}$.
 
 **Smooth window** $S(m)$ softens the sharp low-mass cutoff:
 
-$$S(m \mid m_{\min},\, \delta_m) = \begin{cases}
+$$S(m \mid m_{\min}, \delta_m) = \begin{cases}
 0 & (m < m_{\min}) \\
-\left[f(m - m_{\min},\, \delta_m) + 1\right]^{-1} & (m_{\min} \leq m < m_{\min} + \delta_m) \\
+\left[f(m - m_{\min}, \delta_m) + 1\right]^{-1} & (m_{\min} \leq m < m_{\min} + \delta_m) \\
 1 & (m \geq m_{\min} + \delta_m)
 \end{cases}$$
 
-$$f(m',\, \delta_m) = \exp\!\left(\frac{\delta_m}{m'} + \frac{\delta_m}{m' - \delta_m}\right)$$
+$$f(m', \delta_m) = \exp\left(\frac{\delta_m}{m'} + \frac{\delta_m}{m' - \delta_m}\right)$$
 
 **Physical motivation**
 
