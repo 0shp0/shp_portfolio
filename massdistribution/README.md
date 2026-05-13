@@ -24,9 +24,9 @@ CDF는 Gauss-Legendre 수치적분으로 계산한다.
 
 #### Power + Peak (PP)
 
-$$\pi(m_1 \mid \lambda_{\rm peak},\, \alpha,\, m_{\min},\, \delta_m,\, m_{\max},\, \mu_m,\, \sigma_m)
-= \left[(1 - \lambda_{\rm peak})\,\mathfrak{P}(m_1 \mid -\alpha,\, m_{\max})
-+ \lambda_{\rm peak}\,G(m_1 \mid \mu_m,\, \sigma_m)\right] S(m_1 \mid m_{\min},\, \delta_m)$$
+$$\pi(m_1 \mid \lambda_{\rm peak},\, \alpha,\, m_{\min},\, \delta_m,\, m_{\max},\, \mu_m,\, \sigma_m)$$
+
+$$= \left[(1 - \lambda_{\rm peak})\,\mathfrak{P}(m_1 \mid -\alpha,\, m_{\max}) + \lambda_{\rm peak}\,G(m_1 \mid \mu_m,\, \sigma_m)\right] S(m_1 \mid m_{\min},\, \delta_m)$$
 
 멱함수 성분 $\mathfrak{P}$ 와 가우시안 성분 $G$ 를 $\lambda_{\rm peak}$ 비율로 혼합한다.
 
@@ -90,9 +90,9 @@ CDF computed via Gauss-Legendre quadrature.
 
 #### Power + Peak (PP)
 
-$$\pi(m_1 \mid \lambda_{\rm peak},\, \alpha,\, m_{\min},\, \delta_m,\, m_{\max},\, \mu_m,\, \sigma_m)
-= \left[(1 - \lambda_{\rm peak})\,\mathfrak{P}(m_1 \mid -\alpha,\, m_{\max})
-+ \lambda_{\rm peak}\,G(m_1 \mid \mu_m,\, \sigma_m)\right] S(m_1 \mid m_{\min},\, \delta_m)$$
+$$\pi(m_1 \mid \lambda_{\rm peak},\, \alpha,\, m_{\min},\, \delta_m,\, m_{\max},\, \mu_m,\, \sigma_m)$$
+
+$$= \left[(1 - \lambda_{\rm peak})\,\mathfrak{P}(m_1 \mid -\alpha,\, m_{\max}) + \lambda_{\rm peak}\,G(m_1 \mid \mu_m,\, \sigma_m)\right] S(m_1 \mid m_{\min},\, \delta_m)$$
 
 A mixture of a power law component $\mathfrak{P}$ and a Gaussian component $G$,
 weighted by $\lambda_{\rm peak}$.
