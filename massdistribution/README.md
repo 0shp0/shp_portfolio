@@ -56,6 +56,12 @@ $$f(m', \delta_m) = \exp\left(\frac{\delta_m}{m'} + \frac{\delta_m}{m' - \delta_
 | Truncated | Gauss-Legendre 수치적분 | 멱함수 CDF를 구간별로 정확하게 적분 |
 | PP | `np.trapz` | 혼합 분포 형태가 복잡하여 수치 정규화 |
 
+### 결과 예시 (PP 모델)
+
+| PDF | CDF |
+|:---:|:---:|
+| ![PP_PDF](image/PP_pdf.png) | ![PP_CDF](image/PP_cdf.png) |
+
 ### 구조
 
 ```
@@ -124,6 +130,12 @@ The two models intentionally use different integration strategies.
 |-------|--------|--------|
 | Truncated | Gauss-Legendre quadrature | Accurate bin-by-bin CDF integration of power law |
 | PP | `np.trapz` | Mixed distribution shape requires numerical normalization |
+
+### Example Results (PP Model)
+
+| PDF | CDF |
+|:---:|:---:|
+| ![PP_PDF](image/PP_pdf.png) | ![PP_CDF](image/PP_cdf.png) |
 
 ### Structure
 
